@@ -18,17 +18,17 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    if (this.x < 505) {
-        this.x += this.speed * dt;
-    } else {
-        this.x = 0
-        this.x += this.speed * dt;
+    this.x += this.speed * dt;
+
+    if (this.x >= 505) {
+        this.x = -120;
     }
 
     if ((player.x > this.x && player.x < this.x + 5) && 
-        (player.y > this.y && player.x < this.y + 5)) {
+        (player.y > this.y && player.y < this.y + 5)) {
         alert('Wasted');
-        return;
+        player.x = 200;
+        player.y = 380;
     }
 };
 
@@ -45,7 +45,8 @@ var Player = function(x, y) {
     this.sprite = 'images/char-boy.png';
     this.x = x;
     this.y = y;
-    this.speed = 100;
+    this.xStep = 505 / 5;
+    this.yStep = (535 - 40) / 6
 }
 
 Player.prototype.update = function() {
@@ -56,30 +57,31 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(keyCode) {
-    if (keyCode === 'left' && !(this.x - this.speed < 50)) {
-        this.x -= this.speed;
-    } else if (keyCode === 'up' && !(this.y - this.speed < 50)) {
-        this.y -= this.speed;
-    } else if (keyCode === 'right' && !(this.x + this.speed > 450)) {
-        this.x += this.speed;
-    } else if (keyCode === 'down' && !(this.y + this.speed > 500)) {
-        this.y += this.speed;
+    if (keyCode === 'left' && !(this.x < 50)) {
+        this.x -= this.xStep;
+    } else if (keyCode === 'up' && !(this.y < 50)) {
+        this.y -= this.yStep;
+    } else if (keyCode === 'right' && !(this.x > 400)) {
+        this.x += this.xStep;
+    } else if (keyCode === 'down' && !(this.y > 350)) {
+        this.y += this.yStep;
     }
     
     if (this.y < 50) {
         alert('You win');
-        return;
+        player.x = 200;
+        player.y = 380;
     }
 }
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var Enemy1 = new Enemy(0, 140, 100);
-var Enemy2 = new Enemy(0, 220, 120);
-var Enemy3 = new Enemy(0, 300, 70);
+var Enemy1 = new Enemy(-120, 140, 250);
+var Enemy2 = new Enemy(-120, 220, 130);
+var Enemy3 = new Enemy(-120, 60, 180);
 var allEnemies = [Enemy1, Enemy2, Enemy3];
-var player = new Player(200, 400);
+var player = new Player(200, 380);
 
 
 // This listens for key presses and sends the keys to your
