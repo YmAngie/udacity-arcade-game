@@ -24,11 +24,11 @@ Enemy.prototype.update = function(dt) {
         this.x = -120;
     }
 
-    if ((player.x > this.x && player.x < this.x + 5) && 
-        (player.y > this.y && player.y < this.y + 5)) {
-        alert('Wasted');
-        player.x = 200;
-        player.y = 380;
+    if (player.y + 50 > this.y && player.y < this.y + 5) {
+        if (player.x + 50 > this.x && player.x < this.x + 5) {
+            alert('Wasted');
+            player.reset();
+        }
     }
 };
 
@@ -47,10 +47,10 @@ var Player = function(x, y) {
     this.y = y;
     this.xStep = 505 / 5;
     this.yStep = (535 - 40) / 6
-}
+};
 
 Player.prototype.update = function() {
-}
+};
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -69,10 +69,14 @@ Player.prototype.handleInput = function(keyCode) {
     
     if (this.y < 50) {
         alert('You win');
-        player.x = 200;
-        player.y = 380;
+        player.reset();
     }
-}
+};
+
+Player.prototype.reset = function() {
+    this.x = 200;
+    this.y = 380;
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
