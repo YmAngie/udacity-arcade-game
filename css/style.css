@@ -1,3 +1,16 @@
 body {
     text-align: center;
 }
+
+#score {
+    color: green;
+    font-size: 20px;
+}
+
+#scoreText {
+    display: inline-block;
+}
+
+#scoreCount {
+    display: inline-block;
+}

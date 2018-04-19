@@ -15,6 +15,7 @@ Enemy.prototype.update = function(dt) {
     if (player.y + 50 > this.y && player.y < this.y + 5) {
         if (player.x + 50 > this.x && player.x < this.x + 5) {
             alert('Wasted');
+            player.changeScore('reduce');
             player.reset();
         }
     }
@@ -49,6 +50,7 @@ Player.prototype.handleInput = function(keyCode) {
     
     if (this.y < 50) {
         alert('You win');
+        player.changeScore('increase');
         player.reset();
     }
 };
@@ -58,6 +60,19 @@ Player.prototype.reset = function() {
     this.y = 380;
 };
 
+Player.prototype.changeScore = function(value) {
+    var $scoreCount = $('#scoreCount');
+    var currentScore = Number($scoreCount.data('current-score'));
+    if (value === 'increase') {
+        var newScore = ++currentScore;
+    } else if (!(currentScore - 1 < 0)) {
+        var newScore = --currentScore;
+    } else {
+        return;
+    }
+    $scoreCount.data('current-score', newScore);
+    $scoreCount.html(newScore);
+}
 
 var player = new Player();
 var allEnemies = [];
